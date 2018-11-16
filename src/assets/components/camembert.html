@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Camembert</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <style>
     line {
   display: block;
@@ -10,7 +11,11 @@
 }
 </style>
     <body>
-        <div class="chart"></div>
+        <div class="text-center align-items-center">
+            <span><small>00:00</small></span>
+            <div class="chart"></div>
+            <span><small>12:00</small></span>
+        </div>
         <script src="https://d3js.org/d3.v3.js"></script>
         <script>
           var clockGroup, fields, formatHour, formatMinute, formatSecond, height, offSetX, offSetY, pi, render, scaleHours, scaleSecsMins, vis, width;
@@ -18,7 +23,7 @@
             var radius = 80;
             var tickLength = 10;
             var fromClock = 9;
-            var toClock = 6;
+            var toClock = 1;
             var circleDegree = 360;
 
             function degToRad(degrees) {
@@ -77,13 +82,13 @@
             }];
             };
 
-            width = 400;
+            width = 181;
 
-            height = 200;
+            height = 181;
 
-            offSetX = 100;
+            offSetX = 90;
 
-            offSetY = 100;
+            offSetY = 90;
 
             pi = Math.PI;
 
@@ -111,7 +116,7 @@
 
             clockGroup.append('path')
             .attr('d', arc)
-            .style('fill', 'orange');
+            .style('fill', 'gray');
 
             clockGroup.append("svg:circle")
             .attr("r", radius)
