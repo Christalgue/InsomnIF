@@ -11,13 +11,13 @@ and open the template in the editor.\
     <div class="container">\
         <div class="row align-middle">\
             <div class="col-4 text-center pl-0 align-middle">\
-                <button class="border-0 bg-white">Récap Global</button>\
+                <button class="border-0 bg-white">Recap Global</button>\
             </div>\
             <div class="col-4 text-center pl-0 pr-0 align-middle">\
-                <button class="border-0 bg-white">Récap Semaine</button>\
+                <button class="border-0 bg-white">Recap Semaine</button>\
             </div>\
             <div class="col-4 text-center pr-0 align-middle">\
-                <button class="border-0 bg-white">Archétype</button>\
+                <button class="border-0 bg-white">Archetype</button>\
             </div>\
         </div>\
     </div>\
