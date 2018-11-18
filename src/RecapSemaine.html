@@ -11,6 +11,7 @@ and open the template in the editor.
         <meta charset="windows-1252"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://d3js.org/d3.v3.js"></script>
     </head>
     <body>
         <div class="h1 text-center bg-primary">Insomn'IF</div>
@@ -27,7 +28,25 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
-		<div class = "pie chart images" style="height: 400px; width: 200px;">
+		<div class = "pieChartImages" style="height: 400px; width: 350px; margin:0 auto;">
+			<div class="row1">
+				<span class="chart1" style="position: relative; height: 90px; width: 90px; left: 130px; top:0px"></span>
+			</div>
+			<div class="row2">
+				<span class="chart2" style="position: relative; height: 90px; width: 90px; left: 40px; top:-10px"></span>
+				<span class="date1 h6" style="position: relative; height: 30px; width: 90px; left: 40px; top:50px">13/11/2018</span>
+				<span class="chart3" style="position: relative; height: 90px; width: 90px; left: 40px; top:-10px"></span>
+			</div>
+			<div class="row3">
+				<span class="chart4" style="position: relative; height: 90px; width: 90px; left: 10px; top:10px"></span>
+				<span class="date1 h4" style="position: relative; height: 30px; width: 90px; left: 15px; top:0px"><u><strong>20/11/2018</strong></u></span>
+				<span class="chart5" style="position: relative; height: 90px; width: 90px; left: 20px; top:10px"></span>
+			</div>
+			<div class="row4">
+				<span class="chart6" style="position: relative; height: 90px; width: 90px; left: 50px; top:20px"></span>
+				<span class="date1 h6" style="position: relative; height: 30px; width: 90px; left: 40px; top:-50px">27/11/2018</span>
+				<span class="chart7" style="position: relative; height: 90px; width: 90px; left: 30px; top:20px"></span>
+			</div>
 		</div>
 		<div class="col-12 text-center pl-0 pr-0 align-middle">
 			<label>Duree moyenne de Sommeil : </label>
@@ -45,8 +64,186 @@ and open the template in the editor.
             function initialisation() {
                 console.log('Initialisation');
 				document.getElementById("dureeMoyenne").innerHTML = "8h";
-				document.getElementById("respectArchetype").innerHTML = "3000%";
+				document.getElementById("respectArchetype").innerHTML = "90%";
+				addClock(90, 90, 45, 45, 11, 3.5,".chart1");
+				addClock(90, 90, 45, 45, 12, 3,".chart2");
+				addClock(90, 90, 45, 45, 10.5, 3.5,".chart3");
+				addClock(90, 90, 45, 45, 11.5, 4,".chart4");
+				addClock(90, 90, 45, 45, 11.5, 3.5,".chart5");
+				addClock(90, 90, 45, 45, 11.75, 5,".chart6");
+				addClock(90, 90, 45, 45, 11.25, 5,".chart7");
+
             }
+			
+			var clockGroup, fields, formatHour, formatMinute, formatSecond, pi, render, scaleHours, scaleSecsMins, vis;
+
+            var radius = 40;
+            var tickLength = 10;
+            var circleDegree = 360;
+
+            function degToRad(degrees) {
+				return degrees * Math.PI / 180;
+            }
+
+            function clockToRad(clock, direction) {
+				var unit = circleDegree / 12;
+				var degree = direction > 0 ? unit * clock : unit * clock - circleDegree;
+				return degToRad(degree);
+            }
+
+            function getCoordFromCircle(deg, cx, cy, r) {
+				var rad = degToRad(deg);
+				var x = cx + r * Math.cos(rad);
+				var y = cy + r * Math.sin(rad);
+				return [x, y];
+            }
+
+            function splitDegrees(num) {
+				var angle = circleDegree / num;
+				var degrees = [];
+
+				for (var ang = 0; ang < circleDegree; ang += angle) {
+					degrees.push(ang);
+				}
+
+				return degrees;
+            }
+
+
+            formatSecond = d3.time.format("%S");
+
+            formatMinute = d3.time.format("%M");
+
+            formatHour = d3.time.format("%H");
+
+            fields = function() {
+				var d, data, hour, minute, second;
+				d = new Date();
+				second = d.getSeconds();
+				minute = d.getMinutes();
+				hour = d.getHours() + minute / 60;
+				return data = [{
+					"unit": "seconds",
+					"text": formatSecond(d),
+					"numeric": second
+				}, {
+					"unit": "minutes",
+					"text": formatMinute(d),
+					"numeric": minute
+				}, {
+					"unit": "hours",
+					"text": formatHour(d),
+					"numeric": hour
+				}];
+            };
+			
+			function addClock(width, height, offSetX, offSetY, fromClock, toClock, divName) {
+				pi = Math.PI;
+
+				scaleSecsMins = d3.scale.linear()
+				.domain([0, 59 + 59 / 60])
+				.range([0, 2 * pi]);
+
+				scaleHours = d3.scale.linear()
+				.domain([0, 11 + 59 / 60])
+				.range([0, 2 * pi]);
+
+				vis = d3.selectAll(divName)
+				.append("svg:svg")
+				.attr("width", width)
+				.attr("height", height);
+
+				clockGroup = vis.append("svg:g")
+				.attr("transform", "translate(" + offSetX + "," + offSetY + ")");
+
+				var arc = d3.svg.arc()
+				.innerRadius(0)
+				.outerRadius(radius)
+				.startAngle(clockToRad(fromClock, -1))
+				.endAngle(clockToRad(toClock, 1));
+
+				clockGroup.append('path')
+				.attr('d', arc)
+				.style('fill', 'gray');
+
+				clockGroup.append("svg:circle")
+				.attr("r", radius)
+				.attr("fill", "none")
+				.attr("class", "clock outercircle")
+				.attr("stroke", "black")
+				.attr("stroke-width", 2);
+
+
+				clockGroup.append('g')
+				.attr('class', 'ticks')
+				.selectAll('path')
+				.data(splitDegrees(12))
+				.enter()
+				.append('path')
+				.attr('d', function(d) {
+					var coord = {
+					outer: getCoordFromCircle(d, 0, 0, radius),
+					inner: getCoordFromCircle(d, 0, 0, radius - tickLength)
+					};
+					return 'M' + coord.outer[0] + ' ' + coord.outer[1] + 'L' + coord.inner[0] + ' ' + coord.inner[1] + 'Z';
+				})
+				.attr('stroke', 'black');
+
+				clockGroup.append("svg:circle")
+				.attr("r", 4)
+				.attr("fill", "black")
+				.attr("class", "clock innercircle");
+			};
+			
+            render = function(data) {
+				var hourArc, minuteArc, secondArc;
+
+				minuteArc = d3.svg.arc()
+					.innerRadius(0)
+					.outerRadius(70)
+					.startAngle(function(d) {
+						return scaleSecsMins(d.numeric);
+					})
+					.endAngle(function(d) {
+						return scaleSecsMins(d.numeric);
+					});
+
+				hourArc = d3.svg.arc()
+					.innerRadius(0)
+					.outerRadius(50)
+					.startAngle(function(d) {
+						return scaleHours(d.numeric % 12);
+					}).endAngle(function(d) {
+						return scaleHours(d.numeric % 12);
+					});
+
+				clockGroup.selectAll(".clockhand")
+					.data(data)
+					.enter()
+					.append("svg:path")
+					.attr("d", function(d) {
+					if (d.unit === "seconds") {
+						return secondArc(d);
+					} else if (d.unit === "minutes") {
+						return minuteArc(d);
+					} else if (d.unit === "hours") {
+						return hourArc(d);
+					}
+					})
+					.attr("class", "clockhand")
+					.attr("stroke", "black")
+					.attr("stroke-width", function(d) {
+					if (d.unit === "seconds") {
+						return 2;
+					} else if (d.unit === "minutes") {
+						return 3;
+					} else if (d.unit === "hours") {
+						return 3;
+					}
+					})
+					.attr("fill", "none");
+            };
+			
             $(document).ready(function () {
                 //appel de la fonction initialisation
                 initialisation();
