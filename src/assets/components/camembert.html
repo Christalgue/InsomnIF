@@ -1,4 +1,7 @@
-<!-- Change fromClock and toClock for updating the clock arc-->
+<!-- Change fromClock and toClock for updating the clock arc, line 30.
+     Adding an arc with the add arc function with your new from/toClock, line 117.
+     Changing the colors with the fill color of the clockGroup, line 131.
+-->
 
 <!doctype html>
 <html>
@@ -93,9 +96,8 @@
             offSetX = 90;
 
             offSetY = 90;
-
             pi = Math.PI;
-
+ 
             scaleSecsMins = d3.scale.linear()
             .domain([0, 59 + 59 / 60])
             .range([0, 2 * pi]);
