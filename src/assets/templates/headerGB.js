@@ -25,13 +25,13 @@ and open the template in the editor.\
         <div class="container">\
             <div class="row align-middle">\
                 <div class="col-4 text-center pl-0 align-middle" >\
-                    <button onclick="window.location=\'file:///Users/yhua/Desktop/IHM/insomnif/src/assets/templates/RecapGlobal.html\';" class="border-right-0 border-top-0 border-left-0 bg-white" style="border-bottom: 2px solid grey;" >Recap Global</button>\
+                    <button onclick="window.location=\'RecapGlobal.html\';" class="border-right-0 border-top-0 border-left-0 bg-white" style="border-bottom: 2px solid grey;" >Recap Global</button>\
                 </div>\
                 <div class="col-4 text-center pl-0 pr-0 align-middle">\
-                    <button  onclick="window.location=\'file:///Users/yhua/Desktop/IHM/insomnif/src/assets/templates/RecapSemaine.html\';"class="border-right-0 border-top-0 border-left-0 bg-white" style="border-bottom: 2px solid white;">Recap Semaine</button>\
+                    <button  onclick="window.location=\'RecapSemaine.html\';"class="border-right-0 border-top-0 border-left-0 bg-white" style="border-bottom: 2px solid white;">Recap Semaine</button>\
                 </div>\
                 <div class="col-4 text-center pr-0 align-middle">\
-                    <button  onclick="window.location=\'file:///Users/yhua/Desktop/IHM/insomnif/src/assets/templates/ListeArchetypes.html\';"class="border-right-0 border-top-0 border-left-0 bg-white" style="border-bottom: 2px solid white;">Archetype</button>\
+                    <button  onclick="window.location=\'ListeArchetypes.html\';"class="border-right-0 border-top-0 border-left-0 bg-white" style="border-bottom: 2px solid white;">Archetype</button>\
                 </div>\
             </div>\
         </div>\
