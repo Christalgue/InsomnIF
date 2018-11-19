@@ -1,3 +1,5 @@
+<!-- Change fromClock and toClock for updating the clock arc-->
+
 <!doctype html>
 <html>
 <head>
@@ -24,6 +26,8 @@
             var tickLength = 10;
             var fromClock = 9;
             var toClock = 1;
+            var fromClock_2 = 2;
+            var toClock_2 = 4;
             var circleDegree = 360;
 
             function degToRad(degrees) {
@@ -114,8 +118,18 @@
             .startAngle(clockToRad(fromClock, -1))
             .endAngle(clockToRad(toClock, 1));
 
+            var arc_2 = d3.svg.arc()
+            .innerRadius(0)
+            .outerRadius(radius)
+            .startAngle(clockToRad(fromClock_2, -1))
+            .endAngle(clockToRad(toClock_2, -1));
+
             clockGroup.append('path')
             .attr('d', arc)
+            .style('fill', 'gray');
+            
+            clockGroup.append('path')
+            .attr('d', arc_2)
             .style('fill', 'gray');
 
             clockGroup.append("svg:circle")
