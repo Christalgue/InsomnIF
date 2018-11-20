@@ -11,6 +11,7 @@ and open the template in the editor.
         <meta charset="windows-1252"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://d3js.org/d3.v3.js"></script>
     </head>
     <body>
         <div class="h1 text-center bg-primary">Insomn'IF</div>
@@ -27,7 +28,10 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
-		<div class = "pie chart images" style="height: 350px; width: 200px;">
+		<div class = "pieChartImages" style="height: 400px; width: 350px;">
+			<div class = "align-middle text-center pl-0 mb-0 mt-3">0h</div>
+			<span class="chart1" style="position: relative; height: 300px; width: 350px; left: 0px; top:0px"></span>
+			<div class = "align-middle text-center pl-0 mb-0 mt-0">12h</div>
 		</div>
 		<div class="col-12 text-center pl-0 pr-0 align-middle">
 			<label>Duree moyenne de Sommeil : </label>
@@ -42,16 +46,206 @@ and open the template in the editor.
 		<script>
 		    function ajouter_Periode_Sommeil() {
 				$('#popUpAjouter').html (	'<label class="mx-3"> De </label> '
-											+ 	'<input type="text" id="champHoraireDebut" size="4" class="pl-10"/>'
+											+ 	'<input type="number" id="champHoraireDebut" size="4" class="pl-10"/>'
 											+ 	'<label class="mx-3"> A </label>'
-											+ 	'<input type="text" id="champHoraireFin" size="4"/>'
+											+ 	'<input type="number" id="champHoraireFin" size="4"/>'
 											+	'</br>'
 											+	'<button id="validerAjout" class="border-0 bg-info text-light align-right">Valider</button>');
+				
+				$('#validerAjout').on('click', function (){
+					// affichage pour debugage dans la console javascript du navigateur
+					console.log('Click sur le bouton "ValiderAjout"');
+					valider_Ajout();
+				});
             }
             function initialisation() {
                 console.log('Initialisation');
 				document.getElementById("dureeMoyenne").innerHTML = "8h";
+				addClock(340, 315, 180, 160,".chart1");
+				addArcToClock(11.5,-1,4,1,"grey",".chart1");
             }
+			
+			function valider_Ajout(){
+				var fr = document.getElementById("champHoraireDebut").value;
+				var to = document.getElementById("champHoraireFin").value;
+				addArcToClock((6+(fr-12)/2),-1,(6+(to-12)/2),-1,"green",".chart1");
+			}
+			
+			var clockGroup, fields, formatHour, formatMinute, formatSecond, pi, render, scaleHours, scaleSecsMins, vis;
+
+            var radius = 150;
+            var tickLength = 30;
+            var circleDegree = 360;
+
+            function degToRad(degrees) {
+				return degrees * Math.PI / 180;
+            }
+
+            function clockToRad(clock, direction) {
+				var unit = circleDegree / 12;
+				var degree = direction > 0 ? unit * clock : unit * clock - circleDegree;
+				return degToRad(degree);
+            }
+
+            function getCoordFromCircle(deg, cx, cy, r) {
+				var rad = degToRad(deg);
+				var x = cx + r * Math.cos(rad);
+				var y = cy + r * Math.sin(rad);
+				return [x, y];
+            }
+
+            function splitDegrees(num) {
+				var angle = circleDegree / num;
+				var degrees = [];
+
+				for (var ang = 0; ang < circleDegree; ang += angle) {
+					degrees.push(ang);
+				}
+
+				return degrees;
+            }
+
+
+            formatSecond = d3.time.format("%S");
+
+            formatMinute = d3.time.format("%M");
+
+            formatHour = d3.time.format("%H");
+
+            fields = function() {
+				var d, data, hour, minute, second;
+				d = new Date();
+				second = d.getSeconds();
+				minute = d.getMinutes();
+				hour = d.getHours() + minute / 60;
+				return data = [{
+					"unit": "seconds",
+					"text": formatSecond(d),
+					"numeric": second
+				}, {
+					"unit": "minutes",
+					"text": formatMinute(d),
+					"numeric": minute
+				}, {
+					"unit": "hours",
+					"text": formatHour(d),
+					"numeric": hour
+				}];
+            };
+			
+			function addArcToClock(fromClock, dirFrom, toClock, dirTo, colour, divName){
+				vis = d3.selectAll(divName)
+				.select("svg");
+
+				clockGroup = vis.select("g")
+
+				var arc = d3.svg.arc()
+				.innerRadius(0)
+				.outerRadius(radius)
+				.startAngle(clockToRad(fromClock, dirFrom))
+				.endAngle(clockToRad(toClock, dirTo));
+				
+				clockGroup.append('path')
+				.attr('d', arc)
+				.style('fill', colour);
+			}
+			
+			function addClock(width, height, offSetX, offSetY, divName) {
+				pi = Math.PI;
+
+				scaleSecsMins = d3.scale.linear()
+				.domain([0, 59 + 59 / 60])
+				.range([0, 2 * pi]);
+
+				scaleHours = d3.scale.linear()
+				.domain([0, 11 + 59 / 60])
+				.range([0, 2 * pi]);
+
+				vis = d3.selectAll(divName)
+				.append("svg:svg")
+				.attr("width", width)
+				.attr("height", height);
+
+				clockGroup = vis.append("svg:g")
+				.attr("transform", "translate(" + offSetX + "," + offSetY + ")");
+				clockGroup.append("svg:circle")
+				.attr("r", radius)
+				.attr("fill", "none")
+				.attr("class", "clock outercircle")
+				.attr("stroke", "black")
+				.attr("stroke-width", 2);
+
+				clockGroup.append('g')
+				.attr('class', 'ticks')
+				.selectAll('path')
+				.data(splitDegrees(12))
+				.enter()
+				.append('path')
+				.attr('d', function(d) {
+					var coord = {
+					outer: getCoordFromCircle(d, 0, 0, radius),
+					inner: getCoordFromCircle(d, 0, 0, radius - tickLength)
+					};
+					return 'M' + coord.outer[0] + ' ' + coord.outer[1] + 'L' + coord.inner[0] + ' ' + coord.inner[1] + 'Z';
+				})
+				.attr('stroke', 'black');
+
+				clockGroup.append("svg:circle")
+				.attr("r", 4)
+				.attr("fill", "black")
+				.attr("class", "clock innercircle");
+			};
+			
+            render = function(data) {
+				var hourArc, minuteArc, secondArc;
+
+				minuteArc = d3.svg.arc()
+					.innerRadius(0)
+					.outerRadius(70)
+					.startAngle(function(d) {
+						return scaleSecsMins(d.numeric);
+					})
+					.endAngle(function(d) {
+						return scaleSecsMins(d.numeric);
+					});
+
+				hourArc = d3.svg.arc()
+					.innerRadius(0)
+					.outerRadius(50)
+					.startAngle(function(d) {
+						return scaleHours(d.numeric % 12);
+					}).endAngle(function(d) {
+						return scaleHours(d.numeric % 12);
+					});
+					http://google.it
+				clockGroup.selectAll(".clockhand")
+					.data(data)
+					.enter()
+					.append("svg:path")
+					.attr("d", function(d) {
+					if (d.unit === "seconds") {
+						return secondArc(d);
+					} else if (d.unit === "minutes") {
+						return minuteArc(d);
+					} else if (d.unit === "hours") {
+						return hourArc(d);
+					}
+					})
+					.attr("class", "clockhand")
+					.attr("stroke", "black")
+					.attr("stroke-width", function(d) {
+					if (d.unit === "seconds") {
+						return 2;
+					} else if (d.unit === "minutes") {
+						return 3;
+					} else if (d.unit === "hours") {
+						return 3;
+					}
+					})
+					.attr("fill", "none");
+            };
+			
+			
             $(document).ready(function () {
                 //appel de la fonction initialisation
                 initialisation();
@@ -62,5 +256,6 @@ and open the template in the editor.
                 ajouter_Periode_Sommeil();
             });
 		</script>
+		
     </body>
 </html>
