@@ -1,77 +1,92 @@
 <!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
 <html>
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
-        <link rel="stylesheet" href="style.css">
-        <title>Recapitulatif Semaine</title>
+        <title>Archetype Jour</title>
         <meta charset="windows-1252"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="https://d3js.org/d3.v3.js"></script>
     </head>
     <body>
-        <script src="headerSM.js"></script>
-
-		<div class = "pieChartImages" style="height: 400px; width: 350px; margin:0 auto;">
-			<div class="row1">
-				<span id="chart1" class="chart" style="position: relative; height: 90px; width: 90px; left: 130px; top:0px"></span>
+        <div class="row bg-primary" style="">
+			<div class="col-3 text-center" style=" padding-top:10px">
+				<a href="ArchetypeSemaine.html"><img src="../img/button_back.png" style="width:30px; height:30px" /></a>
 			</div>
-			<div class="row2">
-				<span id="chart2" class="chart" style="position: relative; height: 90px; width: 90px; left: 40px; top:-10px"></span>
-				<span class="date1 h6" style="position: relative; height: 30px; width: 90px; left: 40px; top:50px">5/11/2018</span>
-				<span id="chart3" class="chart" style="position: relative; height: 90px; width: 90px; left: 40px; top:-10px"></span>
-			</div>
-			<div class="row3">
-				<span id="chart4" class="chart" style="position: relative; height: 90px; width: 90px; left: 10px; top:10px"></span>
-				<span class="date1 h4" style="position: relative; height: 30px; width: 90px; left: 15px; top:0px"><u><strong>12/11/2018</strong></u></span>
-				<span id="chart5" class="chart" style="position: relative; height: 90px; width: 90px; left: 20px; top:10px"></span>
-			</div>
-			<div class="row4">
-				<span id="chart6" class="chart" style="position: relative; height: 90px; width: 90px; left: 50px; top:20px"></span>
-				<span class="date1 h6" style="position: relative; height: 30px; width: 90px; left: 40px; top:-50px">19/11/2018</span>
-				<span id="chart7" class="chart" style="position: relative; height: 90px; width: 90px; left: 30px; top:20px"></span>
+			<div class="h1 col-6  text-center"  style="">
+				Insomn'IF
 			</div>
 		</div>
-		<div class="col-12 text-center pl-0 pr-0 align-middle">
-			<label>Duree moyenne de Sommeil : </label>
-			<label id="dureeMoyenne" rows="1" cols="5"> h</label>
-			<br/>
-			<label>Respect de l'archetype : </label>
-			<label id="respectArchetype" rows="1" cols="5"> %</label>
-			<button id="afficherDetails" class="border-0 bg-info text-light"> Afficher plus de details </button>
+		<div class="col-12 text-right pt-3 pr-3 pb-3 align-middle">
+			<button id="validerArchetype" class="btn-lg border-0 bg-info text-light"> Valider </button>
+		</div>	
+		<div class = "text-center pieChartImages" style="height:330px;">
+			<div class = "align-middle text-center pl-0 mb-0 mt-1">0h</div>
+			<span class = "align-middle text-center pl-0 mb-0 mt-1" style="height: 300p">
+				18h
+				<span id= "chart1" class="chart1" style="height: 300px; width: 300px;"></span>
+				6h
+			</span>
+			<div class = "align-middle text-center pl-0 mb-0 mt-0">12h</div>
+		</div>
+		<div class="row align-middle">
+			<div class="text-right" style="margin-left: auto; margin-right:30px">
+				<button id="ajouterPeriodeSommeil" class="border-0 bg-transparent"><img src="../img/button_add.jpg" style="width:60px; height:60px" /></button>
+            </div>
+			</br>
+			<div id="popUpAjouter" class="col-12 text-center pl-0 pt-3 pr-0 align-left">
+			</div>
 		</div>	
 		<script>
-		    function afficher_details() {
-                location.href = 'Stats.html';      
+		    function ajouter_Periode_Sommeil() {
+				$('#popUpAjouter').html (	'<label class="mx-3"> De </label> '
+											+ 	'<input type="text" id="champHoraireDebut" style="width:60px" class="pl-10"/>'
+											+ 	'<label class="mx-3">A </label>'
+											+ 	'<input type="text" id="champHoraireFin" style="width:60px"/>'
+											+	'<button id="validerAjout" class="border-0 bg-transparent"><img src="../img/accept.png" style="width:30px; height:30px" /></button>'
+											+	'<button id="annulerAjout" class="border-0 bg-transparent"><img src="../img/delete.jpg" style="width:30px; height:30px" /></button>');
+				
+				$('#validerAjout').on('click', function (){
+					// affichage pour debugage dans la console javascript du navigateur
+					console.log('Click sur le bouton "ValiderAjout"');
+					valider_Ajout();
+				});
+				$('#annulerAjout').on('click', function (){
+					// affichage pour debugage dans la console javascript du navigateur
+					console.log('Click sur le bouton "annulerAjout"');
+					remove_Ajout();
+				});
             }
             function initialisation() {
-				document.getElementById("dureeMoyenne").innerHTML = "8h";
-				document.getElementById("respectArchetype").innerHTML = "90%";
-				addClock(90, 90, 45, 45,"#chart1");
-				addArcToClock(11,-1,3.5,1,"grey","#chart1");
-				addClock(90, 90, 45, 45,"#chart2");
-				addArcToClock(10.5,-1,4,1,"grey","#chart2");
-				addClock(90, 90, 45, 45,"#chart3");
-				addArcToClock(11,-1,3.5,1,"grey","#chart3");
-				addArcToClock(6.5,1,7,1,"grey","#chart3");
-				addArcToClock(10.5,-1,11,-1,"red","#chart3");
-				addClock(90, 90, 45, 45, "#chart4");
-				addArcToClock(11.5,-1,4,1,"grey","#chart4");
-				addClock(90, 90, 45, 45, "#chart5");
-				addArcToClock(11.5,-1,3,1,"grey","#chart5");
-				addArcToClock(3,1,3.5,1,"red","#chart5");
-				addClock(90, 90, 45, 45, "#chart6");
-				addArcToClock(11.75,-1,5,1,"grey","#chart6");
-				addArcToClock(6.5,1,7.5,1,"red","#chart6");
-				addClock(90, 90, 45, 45, "#chart7");
-				addArcToClock(11.25,-1,4,1,"grey","#chart7");
-				addArcToClock(4,1,5,1,"orange","#chart7");
+                console.log('Initialisation');
+				addClock(280, 280, 140, 140,".chart1");
+				addArcToClock(11.5,-1,4,1,"grey",".chart1");
             }
+			
+			function valider_Ajout(){
+				var fr = parseInt(document.getElementById("champHoraireDebut").value);
+				var to = parseInt(document.getElementById("champHoraireFin").value);
+				if (fr > to)
+					addArcToClock((6+(fr-12)/2),-1,(6+(to-12)/2),1,"grey",".chart1");
+				else
+					addArcToClock((6+(fr-12)/2),-1,(6+(to-12)/2),-1,"grey",".chart1");
+			}
+			
+			function remove_Ajout(){
+				var fr = parseInt(document.getElementById("champHoraireDebut").value);
+				var to = parseInt(document.getElementById("champHoraireFin").value);
+				removeArcFromClock((6+(fr-12)/2),-1,(6+(to-12)/2),-1,".chart1");
+			}
 			
 			var clockGroup, fields, formatHour, formatMinute, formatSecond, pi, render, scaleHours, scaleSecsMins, vis;
 
-            var radius = 40;
-            var tickLength = 10;
+            var radius = 130;
+            var tickLength = 30;
             var circleDegree = 360;
 
             function degToRad(degrees) {
@@ -144,7 +159,27 @@
 				
 				clockGroup.append('path')
 				.attr('d', arc)
+				.attr('start', fromClock)
+				.attr('dirFrom', dirFrom)
+				.attr('to', toClock)
+				.attr('dirTo', dirTo)
 				.style('fill', colour);
+			}
+			
+			function removeArcFromClock(fromClock, dirFrom, toClock, dirTo, divName){
+				vis = d3.selectAll(divName)
+				.select("svg");
+
+				clockGroup = vis.select("g")
+
+				var pathList = clockGroup.selectAll('path').each(
+					function() { 
+						if(this.getAttribute('start') == fromClock && this.getAttribute('to') == toClock)
+						{
+							this.remove();
+						}; 
+					}
+				);
 			}
 			
 			function addClock(width, height, offSetX, offSetY, divName) {
@@ -242,20 +277,22 @@
 					.attr("fill", "none");
             };
 			
+			
             $(document).ready(function () {
                 //appel de la fonction initialisation
                 initialisation();
-            });            
-            $('#afficherDetails').on('click', function (){
-                // affichage pour debugage dans la console javascript du navigateur
-                console.log('Click sur le bouton "Afficher plus de details"');
-                afficher_details();
-            });
-			$('#chart4').on('click', function (){
+            });  
+			$('#validerArchetype').on('click', function (){
 				// affichage pour debugage dans la console javascript du navigateur
-				console.log('Click sur les camemberts');
-				window.location='RecapSemaineDetailJour.html'
-			});
+				console.log('Click sur le bouton "Valider"');
+				window.location='ArchetypeSemaine.html'
+			});     
+            $('#ajouterPeriodeSommeil').on('click', function (){
+                // affichage pour debugage dans la console javascript du navigateur
+                console.log('Click sur le bouton "Ajouter une periode de sommeil"');
+                ajouter_Periode_Sommeil();
+            });
 		</script>
+		
     </body>
 </html>

@@ -3,69 +3,65 @@
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
         <link rel="stylesheet" href="style.css">
-        <title>Recapitulatif Semaine</title>
+        <title>Archetype Semaine</title>
         <meta charset="windows-1252"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="https://d3js.org/d3.v3.js"></script>
     </head>
     <body>
-        <script src="headerSM.js"></script>
-
+        <div class="row bg-primary" style="">
+			<div class="col-3 text-center" style=" padding-top:10px">
+				<a href="ListeArchetypes.html"><img src="../img/button_back.png"  width=30px height=30px style="" /></a>
+			</div>
+			<div class="h1 col-6  text-center"  style="">
+				Insomn'IF
+			</div>
+		</div>
+		<div class="col-12 text-right pt-3 pr-3 pb-3 align-middle">
+			<button id="validerButton" class="btn-lg border-0 bg-info text-light"> Valider </button>
+		</div>	
+		<div class="h3 col-15  text-center pb-3"  style="">
+				Archetype : Vacances
+		</div>
 		<div class = "pieChartImages" style="height: 400px; width: 350px; margin:0 auto;">
 			<div class="row1">
 				<span id="chart1" class="chart" style="position: relative; height: 90px; width: 90px; left: 130px; top:0px"></span>
 			</div>
 			<div class="row2">
 				<span id="chart2" class="chart" style="position: relative; height: 90px; width: 90px; left: 40px; top:-10px"></span>
-				<span class="date1 h6" style="position: relative; height: 30px; width: 90px; left: 40px; top:50px">5/11/2018</span>
-				<span id="chart3" class="chart" style="position: relative; height: 90px; width: 90px; left: 40px; top:-10px"></span>
+				<span id="chart3" class="chart" style="position: relative; height: 90px; width: 90px; left: 120px; top:-10px"></span>
 			</div>
 			<div class="row3">
-				<span id="chart4" class="chart" style="position: relative; height: 90px; width: 90px; left: 10px; top:10px"></span>
-				<span class="date1 h4" style="position: relative; height: 30px; width: 90px; left: 15px; top:0px"><u><strong>12/11/2018</strong></u></span>
-				<span id="chart5" class="chart" style="position: relative; height: 90px; width: 90px; left: 20px; top:10px"></span>
+				<span id="chart4" class="chart" style="position: relative; height: 90px; width: 90px; left: 10px; top:0px"></span>
+				<span class="date1 h4" style="position: relative; height: 90px; width: 90px; left: 25px; top:0px"><img src="../img/histogram.jpeg"  width=120px height=120px /></span>
+				<span id="chart5" class="chart" style="position: relative; height: 90px; width: 90px; left: 40px; top:0px"></span>
 			</div>
 			<div class="row4">
-				<span id="chart6" class="chart" style="position: relative; height: 90px; width: 90px; left: 50px; top:20px"></span>
-				<span class="date1 h6" style="position: relative; height: 30px; width: 90px; left: 40px; top:-50px">19/11/2018</span>
-				<span id="chart7" class="chart" style="position: relative; height: 90px; width: 90px; left: 30px; top:20px"></span>
+				<span id="chart6" class="chart" style="position: relative; height: 90px; width: 90px; left: 50px; top:0px"></span>
+				<span id="chart7" class="chart" style="position: relative; height: 90px; width: 90px; left: 100px; top:0px"></span>
 			</div>
 		</div>
-		<div class="col-12 text-center pl-0 pr-0 align-middle">
-			<label>Duree moyenne de Sommeil : </label>
-			<label id="dureeMoyenne" rows="1" cols="5"> h</label>
-			<br/>
-			<label>Respect de l'archetype : </label>
-			<label id="respectArchetype" rows="1" cols="5"> %</label>
-			<button id="afficherDetails" class="border-0 bg-info text-light"> Afficher plus de details </button>
-		</div>	
 		<script>
 		    function afficher_details() {
                 location.href = 'Stats.html';      
             }
             function initialisation() {
-				document.getElementById("dureeMoyenne").innerHTML = "8h";
-				document.getElementById("respectArchetype").innerHTML = "90%";
 				addClock(90, 90, 45, 45,"#chart1");
 				addArcToClock(11,-1,3.5,1,"grey","#chart1");
 				addClock(90, 90, 45, 45,"#chart2");
 				addArcToClock(10.5,-1,4,1,"grey","#chart2");
 				addClock(90, 90, 45, 45,"#chart3");
 				addArcToClock(11,-1,3.5,1,"grey","#chart3");
-				addArcToClock(6.5,1,7,1,"grey","#chart3");
-				addArcToClock(10.5,-1,11,-1,"red","#chart3");
+				addArcToClock(6.5,1,7,1,"grey",".chart3");
 				addClock(90, 90, 45, 45, "#chart4");
 				addArcToClock(11.5,-1,4,1,"grey","#chart4");
 				addClock(90, 90, 45, 45, "#chart5");
 				addArcToClock(11.5,-1,3,1,"grey","#chart5");
-				addArcToClock(3,1,3.5,1,"red","#chart5");
 				addClock(90, 90, 45, 45, "#chart6");
 				addArcToClock(11.75,-1,5,1,"grey","#chart6");
-				addArcToClock(6.5,1,7.5,1,"red","#chart6");
 				addClock(90, 90, 45, 45, "#chart7");
 				addArcToClock(11.25,-1,4,1,"grey","#chart7");
-				addArcToClock(4,1,5,1,"orange","#chart7");
             }
 			
 			var clockGroup, fields, formatHour, formatMinute, formatSecond, pi, render, scaleHours, scaleSecsMins, vis;
@@ -245,16 +241,16 @@
             $(document).ready(function () {
                 //appel de la fonction initialisation
                 initialisation();
-            });            
-            $('#afficherDetails').on('click', function (){
-                // affichage pour debugage dans la console javascript du navigateur
-                console.log('Click sur le bouton "Afficher plus de details"');
-                afficher_details();
-            });
-			$('#chart4').on('click', function (){
+            });     
+			$('#validerButton').on('click', function (){
+				// affichage pour debugage dans la console javascript du navigateur
+				console.log('Click sur le bouton "valider"');
+				window.location='ListeArchetypes.html'
+			});
+			$('.chart').on('click', function (){
 				// affichage pour debugage dans la console javascript du navigateur
 				console.log('Click sur les camemberts');
-				window.location='RecapSemaineDetailJour.html'
+				window.location='ArchetypeJour.html'
 			});
 		</script>
     </body>

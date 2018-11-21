@@ -1,15 +1,14 @@
 document.write(`
-<!DOCTYPE html>
 <html>
     <body>
-      <div class="row bg-primary">
-        <div class="col-3 text-center" style=" padding-top:10px">
-          <a href="#"><img src="../img/button_back.png" width=30px height=30px style="" /></a>
-        </div>
-        <div class="h1 col-6 text-center">
-          Insomn'IF
-        </div>
-      </div>
+		<div class="row bg-primary">
+			<div class="col-3 text-center" style=" padding-top:10px">
+				<a href="#"><img src="../img/button_back.png" width=30px height=30px style="" /></a>
+			</div>
+			<div class="h1 col-6 text-center">
+				Insomn'IF
+			</div>
+		</div>
         <div class="container">
             <div class="row align-middle">
                 <div class="col-4 text-center pl-0 align-middle" >
