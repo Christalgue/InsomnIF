@@ -4,42 +4,45 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
         <link rel="stylesheet" href="style.css">
         <title>Recapitulatif Semaine</title>
-        <meta charset="windows-1252"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="https://d3js.org/d3.v3.js"></script>
     </head>
     <body>
         <script src="headerSM.js"></script>
-
-		<div class = "pieChartImages" style="height: 400px; width: 350px; margin:0 auto;">
-			<div class="row1">
-				<span id="chart1" class="chart" style="position: relative; height: 90px; width: 90px; left: 130px; top:0px"></span>
-			</div>
-			<div class="row2">
-				<span id="chart2" class="chart" style="position: relative; height: 90px; width: 90px; left: 40px; top:-10px"></span>
-				<span class="date1 h6" style="position: relative; height: 30px; width: 90px; left: 40px; top:50px">5/11/2018</span>
-				<span id="chart3" class="chart" style="position: relative; height: 90px; width: 90px; left: 40px; top:-10px"></span>
-			</div>
-			<div class="row3">
-				<span id="chart4" class="chart" style="position: relative; height: 90px; width: 90px; left: 10px; top:10px"></span>
-				<span class="date1 h4" style="position: relative; height: 30px; width: 90px; left: 15px; top:0px"><u><strong>12/11/2018</strong></u></span>
-				<span id="chart5" class="chart" style="position: relative; height: 90px; width: 90px; left: 20px; top:10px"></span>
-			</div>
-			<div class="row4">
-				<span id="chart6" class="chart" style="position: relative; height: 90px; width: 90px; left: 50px; top:20px"></span>
-				<span class="date1 h6" style="position: relative; height: 30px; width: 90px; left: 40px; top:-50px">19/11/2018</span>
-				<span id="chart7" class="chart" style="position: relative; height: 90px; width: 90px; left: 30px; top:20px"></span>
-			</div>
-		</div>
-		<div class="col-12 text-center pl-0 pr-0 align-middle">
-			<label>Duree moyenne de Sommeil : </label>
-			<label id="dureeMoyenne" rows="1" cols="5"> h</label>
-			<br/>
-			<label>Respect de l'archetype : </label>
-			<label id="respectArchetype" rows="1" cols="5"> %</label>
-			<button id="afficherDetails" class="border-0 bg-info text-light"> Afficher plus de details </button>
-		</div>	
+        <div class="container">
+            <div class="my-3 mx-0 row justify-content-center w-100">
+                Archétype : Vacances
+            </div>
+        </div>
+	    <div class = "pieChartImages" style="height: 400px; width: 350px; margin:0 auto;">
+		    <div class="row1">
+			    <span id="chart1" class="chart" style="position: relative; height: 90px; width: 90px; left: 130px; top:0px"></span>
+		    </div>
+		    <div class="row2">
+			    <span id="chart2" class="chart" style="position: relative; height: 90px; width: 90px; left: 40px; top:-10px"></span>
+			    <span class="date1 h6" style="position: relative; height: 30px; width: 90px; left: 40px; top:50px">5/11/2018</span>
+			    <span id="chart3" class="chart" style="position: relative; height: 90px; width: 90px; left: 40px; top:-10px"></span>
+		    </div>
+		    <div class="row3">
+			    <span id="chart4" class="chart" style="position: relative; height: 90px; width: 90px; left: 10px; top:10px"></span>
+			    <span class="date1 h4" style="position: relative; height: 30px; width: 90px; left: 15px; top:0px"><u><strong>12/11/2018</strong></u></span>
+			    <span id="chart5" class="chart" style="position: relative; height: 90px; width: 90px; left: 20px; top:10px"></span>
+		    </div>
+		    <div class="row4">
+			    <span id="chart6" class="chart" style="position: relative; height: 90px; width: 90px; left: 50px; top:20px"></span>
+			    <span class="date1 h6" style="position: relative; height: 30px; width: 90px; left: 40px; top:-50px">19/11/2018</span>
+			    <span id="chart7" class="chart" style="position: relative; height: 90px; width: 90px; left: 30px; top:20px"></span>
+		    </div>
+	    </div>
+	    <div class="col-12 text-center pl-0 pr-0 align-middle">
+		    <label>Durée moyenne de Sommeil : </label>
+		    <label id="dureeMoyenne" rows="1" cols="5"> h</label>
+		    <br/>
+		    <label>Respect de l'archétype : </label>
+		    <label id="respectArchetype" rows="1" cols="5"> %</label>
+		    <button id="afficherDetails" class="border-0 bg-info text-light"> Afficher plus de details </button>
+	    </div>
 		<script>
 		    function afficher_details() {
                 location.href = 'Stats.html';      
